@@ -1,0 +1,3 @@
+# 環境固有の実行時設定（Web AppのURL・認証トークンなど）。導入する側が
+# それぞれ自分の値で作成する。docs/納品/トークン発行手順.md 参照。
+gas-freelancer/webapp-config.json

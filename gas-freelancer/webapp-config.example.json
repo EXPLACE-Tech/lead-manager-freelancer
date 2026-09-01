@@ -1,0 +1,5 @@
+{
+  "sheetFileId": "案件管理スプレッドシートのfileId（URLの https://docs.google.com/spreadsheets/d/<ここ>/edit の部分）",
+  "webAppUrl": "デプロイ後に発行されるWeb AppのURL（https://script.google.com/macros/s/xxxxx/exec）をここに貼る",
+  "sharedSecret": "Config.gsのSHARED_SECRETと同じ値。生成方法はdocs/納品/トークン発行手順.md参照"
+}
