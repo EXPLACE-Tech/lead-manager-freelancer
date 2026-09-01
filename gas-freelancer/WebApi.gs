@@ -1,9 +1,11 @@
 /**
- * 書き込み専用のWeb App受け口。ローカルPC上でヘッドレス実行される Claude
- * Code から、1時間ごとに取得・翻訳・分類・円換算済みの案件データがPOST
- * される。デプロイ方法は docs/セットアップ手順_Freelancer.md 参照。
+ * 書き込み専用のWeb App受け口。`/freelancer-leads` Skillを実行したClaude
+ * Codeから、取得・翻訳・分類・円換算済みの案件データがPOSTされる。
+ * デプロイ方法は docs/セットアップ手順_Freelancer.md 参照。
  *
- * リクエストボディ（JSON）:
+ * リクエストボディ（JSON）は2種類。
+ *
+ * (A) 案件の追記:
  *   {
  *     "secret": "Config.gs の SHARED_SECRET と同じ値",
  *     "leads": [
@@ -19,8 +21,11 @@
  *       }, ...
  *     ]
  *   }
+ *   レスポンス: { "added": n, "skipped": n }
  *
- * レスポンス（JSON）: { "added": n, "skipped": n }
+ * (B) 案件No指定での削除（誤って入れたデータの手直し用）:
+ *   { "secret": "...", "deleteCaseNos": ["FL-12345678", ...] }
+ *   レスポンス: { "deleted": n }
  */
 function doPost(e) {
   let body;
@@ -33,13 +38,18 @@ function doPost(e) {
   if (body.secret !== SHARED_SECRET) {
     return jsonResponse_({ error: 'unauthorized' }, 401);
   }
-  if (!Array.isArray(body.leads)) {
-    return jsonResponse_({ error: 'leads must be an array' }, 400);
-  }
 
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LIST_SHEET);
   if (!sheet) {
     return jsonResponse_({ error: 'シート「' + LIST_SHEET + '」が見つかりません。setup() を先に実行してください。' }, 500);
+  }
+
+  if (Array.isArray(body.deleteCaseNos)) {
+    return jsonResponse_({ deleted: deleteLeadsByCaseNo_(sheet, body.deleteCaseNos) });
+  }
+
+  if (!Array.isArray(body.leads)) {
+    return jsonResponse_({ error: 'leads または deleteCaseNos を配列で指定してください' }, 400);
   }
 
   let added = 0;

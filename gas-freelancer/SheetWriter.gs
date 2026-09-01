@@ -28,3 +28,23 @@ function leadExists_(sheet, caseNo) {
   const caseNos = sheet.getRange(2, LEAD_COL.CASE_NO, lastRow - 1, 1).getValues();
   return caseNos.some(function (r) { return String(r[0]) === String(caseNo); });
 }
+
+/**
+ * 指定した案件No一覧に一致する行を削除する（下から上に消していかないと、
+ * 消すたびに行番号がずれて後続の削除がずれる）。戻り値は削除した件数。
+ */
+function deleteLeadsByCaseNo_(sheet, caseNos) {
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return 0;
+  const wanted = new Set(caseNos.map(String));
+  const values = sheet.getRange(2, LEAD_COL.CASE_NO, lastRow - 1, 1).getValues();
+
+  let deleted = 0;
+  for (let i = values.length - 1; i >= 0; i--) {
+    if (wanted.has(String(values[i][0]))) {
+      sheet.deleteRow(2 + i);
+      deleted++;
+    }
+  }
+  return deleted;
+}
