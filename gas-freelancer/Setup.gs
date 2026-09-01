@@ -1,7 +1,7 @@
 /**
  * One-time spreadsheet construction. Run setup() once after pasting these
  * files into a fresh Google Sheet's Apps Script editor (see
- * docs/セットアップ手順_Freelancer.md), then deploy WebApi.gs as a Web App.
+ * docs/納品/導入手順.md), then deploy WebApi.gs as a Web App.
  * Safe to re-run: existing sheets/rows are left alone, setup() only fills in
  * whatever is still missing.
  *

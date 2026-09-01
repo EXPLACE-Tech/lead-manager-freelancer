@@ -77,7 +77,7 @@ curl -s "https://www.freelancer.com/api/projects/0.1/projects/active/?query=<URL
 
 ### 5. Web Appへ送信する
 
-送信先URL・認証トークンは `gas-freelancer/webapp-config.json` を読む（未作成、または`webAppUrl`が未設定なら、Web Appのデプロイを依頼して中断する。デプロイ手順は`docs/セットアップ手順_Freelancer.md`手順4）。
+送信先URL・認証トークンは `gas-freelancer/webapp-config.json` を読む（未作成、または`webAppUrl`が未設定なら、Web Appのデプロイを依頼して中断する。導入手順は`docs/納品/導入手順.md`参照）。
 
 ```
 POST <webAppUrl>

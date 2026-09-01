@@ -1,7 +1,7 @@
 /**
  * 書き込み専用のWeb App受け口。`/freelancer-leads` Skillを実行したClaude
  * Codeから、取得・翻訳・分類・円換算済みの案件データがPOSTされる。
- * デプロイ方法は docs/セットアップ手順_Freelancer.md 参照。
+ * デプロイ方法は docs/納品/導入手順.md 参照。
  *
  * リクエストボディ（JSON）は2種類。
  *
