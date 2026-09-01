@@ -7,7 +7,7 @@
  *
  * (A) 案件の追記:
  *   {
- *     "secret": "Config.gs の SHARED_SECRET と同じ値",
+ *     "secret": "setup()の完了メッセージに表示されたトークン",
  *     "leads": [
  *       {
  *         "caseNo": "FL-12345678",
@@ -35,7 +35,7 @@ function doPost(e) {
     return jsonResponse_({ error: 'invalid JSON body' }, 400);
   }
 
-  if (body.secret !== SHARED_SECRET) {
+  if (body.secret !== getSharedSecret_()) {
     return jsonResponse_({ error: 'unauthorized' }, 401);
   }
 

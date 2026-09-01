@@ -59,10 +59,17 @@ const AGG_SHEET = '集計';
 
 /**
  * doPost（WebApi.gs）を呼べるのはこのトークンを知っている相手だけ、という
- * 簡易認証。webapp-config.json（Claude Codeが読む）にも同じ値を設定する。
- * 変更したら両方を揃えて更新すること。
- *
- * ★導入時は必ず自分の値に差し替えること。生成方法は
- * docs/納品/トークン発行手順.md 参照。
+ * 簡易認証。手動生成は不要 -- setup() の初回実行時に自動生成され、
+ * PropertiesService（このApps Scriptプロジェクト内だけに保存され、
+ * コードやgitには一切残らない）に保存される。生成された値は setup() の
+ * 完了メッセージに表示されるので、それを webapp-config.json にコピーする。
  */
-const SHARED_SECRET = 'ここに生成したトークンを貼る（例: python -c "import secrets; print(secrets.token_hex(16))"）';
+function getSharedSecret_() {
+  const props = PropertiesService.getScriptProperties();
+  let secret = props.getProperty('SHARED_SECRET');
+  if (!secret) {
+    secret = Utilities.getUuid().replace(/-/g, '');
+    props.setProperty('SHARED_SECRET', secret);
+  }
+  return secret;
+}

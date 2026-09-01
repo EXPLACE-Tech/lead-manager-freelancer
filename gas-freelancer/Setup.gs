@@ -21,6 +21,8 @@ function setup() {
       '・' + LIST_SHEET + ' / ' +
       TEMPLATE_CATEGORIES.map(function (c) { return TEMPLATE_SHEET_PREFIX + c; }).join(' / ') +
       ' / ' + AGG_SHEET +
+      '\n\n■認証トークン（webapp-config.jsonのsharedSecretにこの値をそのままコピーする）:\n' +
+      getSharedSecret_() +
       '\n\n次は WebApi.gs を Web App としてデプロイしてください（手順書参照）。'
   );
 }

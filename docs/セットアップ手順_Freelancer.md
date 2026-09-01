@@ -29,7 +29,7 @@
 
 （すべて `C:\Users\user\dev\projects\client-work\lead-manager\` 配下のフルパス）
 
-**貼り付けた`Config.gs`の`SHARED_SECRET`はプレースホルダのままなので、この時点で自分のトークンに差し替える。生成方法は`docs/納品/トークン発行手順.md`参照。**
+**認証トークンの手動生成は不要。** 次の手順3で`setup()`を実行すると自動生成される（詳細は`docs/納品/トークン発行手順.md`）。
 
 ---
 
@@ -42,6 +42,7 @@
    - `案件リスト`（15列、J列がステータスのプルダウン）
    - `テンプレート_Web制作` `テンプレート_システム開発` `テンプレート_デザイン` `テンプレート_マーケティング`
    - `集計`
+5. **完了メッセージに表示された認証トークンを控えておく**（手順4のWeb Appデプロイ後、`webapp-config.json`に使う。詳細は`docs/納品/トークン発行手順.md`）
 
 ---
 
@@ -63,7 +64,7 @@ URLが取れたら`gas-freelancer/webapp-config.json`（無ければ`webapp-conf
 
 ```json
 {
-  "secret": "gas-freelancer/Config.gs の SHARED_SECRET の値",
+  "secret": "手順3のsetup()完了メッセージに表示されたトークン",
   "leads": [
     { "caseNo": "FL-TEST0001", "title": "Test Project", "titleJa": "テスト案件", "category": "Web制作",
       "budget": "USD 30〜250", "budgetJpy": "約4,500円〜37,500円", "deadline": "2026-09-15", "url": "https://example.com/test" }
@@ -77,7 +78,7 @@ URLが取れたら`gas-freelancer/webapp-config.json`（無ければ`webapp-conf
 
 ## 6. 運用
 
-以降は社長が「Freelancerの案件リストして」等で`/freelancer-leads` Skillを呼ぶだけ。取得〜翻訳〜分類〜円換算〜書き込みまで一括で行われる。詳細は`.claude/skills/freelancer-leads/SKILL.md`参照。
+以降は利用者が「Freelancerの案件リストして」等で`/freelancer-leads` Skillを呼ぶだけ。取得〜翻訳〜分類〜円換算〜書き込みまで一括で行われる。詳細は`.claude/skills/freelancer-leads/SKILL.md`参照。
 
 ---
 
@@ -86,7 +87,7 @@ URLが取れたら`gas-freelancer/webapp-config.json`（無ければ`webapp-conf
 | 症状 | 確認ポイント |
 |---|---|
 | `setup`実行時に「ReferenceError」 | ファイルの貼り付け漏れ・ファイル名間違い（手順2を再確認） |
-| Web AppへのPOSTが401を返す | `secret`の値が`Config.gs`の`SHARED_SECRET`と一致しているか確認 |
+| Web AppへのPOSTが401を返す | `webapp-config.json`の`sharedSecret`が、`setup()`実行時に表示されたトークンと一致しているか確認（`docs/納品/トークン発行手順.md`参照） |
 | デプロイ後もURLが古いまま反映されない | コード変更後は「デプロイを管理」→既存デプロイの鉛筆アイコン→バージョン「新バージョン」を選んで更新する（新しいデプロイを都度作るとURLが変わる） |
 
 ## コードを更新したとき
